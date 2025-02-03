@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Tag {
+  id          String   @id @default(uuid())
+  name        String
+  icon        String?
+  description String?
+  places      Place[]  @relation("PlaceTags")
+  typePlaces  Place[]  @relation("PlaceTypeTags")
+}
+
+model Picture {
+  id             String   @id @default(uuid())
+  imageUrl       String
+  altText        String
+  figcaptionText String
+  size           String
+  variants       Picture[] @relation("PictureVariants")
+  placeId        String?
+  place          Place?    @relation(fields: [placeId], references: [id])
+
+  // oposite relation for the "variants" field
+  Picture Picture[] @relation("PictureVariants")
+}
+
+model Place {
+  id               String     @id @default(uuid())
+  name             String
+  geoJSON          Json
+  shortName        String?
+  description      String?
+  shortDescription String?
+  footTraffic      String?
+  tags             Tag[]      @relation("PlaceTags")
+  typeTags         Tag[]      @relation("PlaceTypeTags")
+  pictures         Picture[]
+  relatedPlaces    Place[]    @relation("RelatedPlaces")
+  zoneId           String?
+  zone             Zone?      @relation(fields: [zoneId], references: [id])
+
+  // relatedPlaces
+  Place Place[] @relation("RelatedPlaces")
+}
+
+model Zone {
+  id      String  @id @default(uuid())
+  name    String
+  places  Place[]
+}

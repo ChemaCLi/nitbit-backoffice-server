@@ -21,18 +21,18 @@
     "prisma": "6.3.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.19.0",
+    "@eslint/eslintrc": "3.2.0",
+    "@eslint/js": "9.19.0",
     "@types/express": "5.0.0",
     "@typescript-eslint/eslint-plugin": "8.22.0",
     "@typescript-eslint/parser": "8.22.0",
     "eslint": "9.19.0",
     "globals": "15.14.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
+    "husky": "9.1.7",
+    "lint-staged": "15.4.3",
     "nodemon": "3.1.9",
     "ts-node": "10.9.2",
     "typescript": "5.7.3",
-    "typescript-eslint": "^8.22.0"
+    "typescript-eslint": "8.22.0"
   }
 }
