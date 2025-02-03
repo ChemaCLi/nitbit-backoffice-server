@@ -17,6 +17,9 @@ importers:
       prisma:
         specifier: 6.3.0
         version: 6.3.0(typescript@5.7.3)
+      swagger-themes:
+        specifier: 1.4.3
+        version: 1.4.3
       swagger-ui-express:
         specifier: 5.0.1
         version: 5.0.1(express@4.21.2)
@@ -1072,6 +1075,9 @@ packages:
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
+
+  swagger-themes@1.4.3:
+    resolution: {integrity: sha512-1G0CqJC1IBbNxkAOyJoREd9hfwXH1R6+3GOFxLhQho2w2i+AbaJqkF4mTJhkce4yhaEMUXvv4KKu1YO/qpe6nQ==}
 
   swagger-ui-dist@5.18.3:
     resolution: {integrity: sha512-G33HFW0iFNStfY2x6QXO2JYVMrFruc8AZRX0U/L71aA7WeWfX2E5Nm8E/tsipSZJeIZZbSjUDeynLK/wcuNWIw==}
@@ -2244,6 +2250,8 @@ snapshots:
   supports-color@7.2.0:
     dependencies:
       has-flag: 4.0.0
+
+  swagger-themes@1.4.3: {}
 
   swagger-ui-dist@5.18.3:
     dependencies:
