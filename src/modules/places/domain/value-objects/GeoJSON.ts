@@ -1,29 +1,34 @@
 import { CoordinatePair } from './CoordinatePair'
 
-type GeometryType = 'Point' | 'LineString' | 'Polygon'
+export type GeoJSONType = 'Feature'
+export type GeometryType = 'Point' | 'LineString' | 'Polygon'
+export type GeoJSONProperties = Record<string, string | number>
+
+export type Geometry = {
+  type: GeometryType
+  coordinates: CoordinatePair | CoordinatePair[] | CoordinatePair[][]
+}
+
+export type GeoJSONProps = {
+  type: GeoJSONType
+  properties: GeoJSONProperties
+  geometry: Geometry
+}
 
 export class GeoJSON {
-  constructor(
-    private readonly type: 'Feature',
-    private readonly properties: Record<string, string | number>,
-    private readonly geometry: {
-      coordinates: CoordinatePair | CoordinatePair[] | CoordinatePair[][]
-      type: GeometryType
-    },
-  ) {
-    if (type !== 'Feature') {
-      console.log(type)
+  constructor(private readonly props: GeoJSONProps) {
+    if (props.type !== 'Feature') {
       throw new Error('Invalid GeoJSON type')
     }
   }
 
   getValue() {
     return {
-      type: this.type,
-      properties: this.properties,
+      type: this.props.type,
+      properties: this.props.properties,
       geometry: {
-        coordinates: this.geometry.coordinates,
-        type: this.geometry.type,
+        type: this.props.geometry.type,
+        coordinates: this.props.geometry.coordinates,
       },
     }
   }

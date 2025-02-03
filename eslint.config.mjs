@@ -15,6 +15,7 @@ export default [
       'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
       'comma-dangle': ['error', 'always-multiline'],
       'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 1 }],
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ]

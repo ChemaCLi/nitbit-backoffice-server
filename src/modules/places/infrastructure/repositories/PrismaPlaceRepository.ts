@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
 import { Place } from '../../domain/models/Place'
-import { parseJsonToPlace } from '../helpers/parseJsonToPlace'
+import { GeoJSON, GeoJSONProps } from '../../domain/value-objects/GeoJSON'
+import { ID } from '../../domain/value-objects/ID'
 
 const prisma = new PrismaClient()
 
@@ -15,18 +16,34 @@ export class PrismaPlaceRepository implements PlaceRepository {
       },
     })
 
-    console.log({ rawPlace }, rawPlace.geoJSON?.toString())
+    const geoJsonParsed = JSON.parse(
+      rawPlace.geoJSON?.toString() || '{}',
+    ) as GeoJSONProps
 
-    return parseJsonToPlace({
-      ...rawPlace,
-      geoJSON: JSON.parse(rawPlace.geoJSON?.toString() || '{}'),
+    return new Place({
+      id: new ID(rawPlace.id),
+      name: rawPlace.name,
+      geoJSON: new GeoJSON({
+        type: 'Feature',
+        properties: geoJsonParsed.properties,
+        geometry: geoJsonParsed.geometry,
+      }),
     })
   }
 
   async findAll(): Promise<Place[]> {
     const rawPlaces = await prisma.place.findMany()
     return rawPlaces.map((rawPlace) => {
-      return parseJsonToPlace(rawPlace)
+      const parsedGeoJson = JSON.parse(rawPlace.geoJSON?.toString() as string)
+      return new Place({
+        id: new ID(rawPlace.id),
+        name: rawPlace.name,
+        geoJSON: new GeoJSON({
+          type: parsedGeoJson.type,
+          properties: parsedGeoJson.properties,
+          geometry: parsedGeoJson.geometry,
+        }),
+      })
     })
   }
 }
