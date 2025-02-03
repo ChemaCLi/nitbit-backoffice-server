@@ -25,7 +25,10 @@ router.post('/', async (req: Request, res: Response) => {
       }),
     })
     const createdPlace = await registerPlace(place, placeRepository)
-    res.json(createdPlace)
+    res.json({
+      message: 'The place has been created successfully',
+      data: createdPlace,
+    })
   } catch (e) {
     console.error(e)
     res.json({ error: 'Error creating the place' })
@@ -39,15 +42,16 @@ router.get('/', async (req: Request, res: Response) => {
     const placeRepository: PlaceRepository = new PrismaPlaceRepository()
     const foundPlaces = await findAllPlaces(criteriaParams, placeRepository)
 
-    res.json(
-      foundPlaces.map((place) => {
+    res.json({
+      message: 'Places found successfully',
+      data: foundPlaces.map((place) => {
         return {
           id: place.id.toString(),
           name: place.name,
           geoJSON: place.geoJSON.getValue(),
         }
       }),
-    )
+    })
   } catch (e) {
     console.error(e)
     res.json({ error: 'Error getting the place' })
