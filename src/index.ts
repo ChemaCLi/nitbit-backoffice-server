@@ -1,12 +1,10 @@
-const run = () => {
-  console.info('up and running')
-  console.info({
-    name: 'asd',
-  })
+import express from 'express'
+import placesRoutes from './modules/places/infrastructure/routes'
 
-  const my = ''
+const app = express()
+app.use(express.json())
+app.use(placesRoutes)
 
-  console.info(my)
-}
-
-run()
+app.listen(3000, () => {
+  console.info('Server running on http://localhost:3000')
+})
