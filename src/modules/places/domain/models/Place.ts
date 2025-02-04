@@ -1,12 +1,15 @@
-import { ID } from '../value-objects/ID'
+import { ID } from '../../../shared/domain/value-objects/ID'
 import { Tag } from './Tag'
 import { Picture } from './Picture'
-import { GeoJSON } from '../value-objects/GeoJSON'
+import { GeoJSON } from '../../../shared/domain/value-objects/GeoJSON/GeoJSON'
 import { FootTraffic } from '../value-objects/FootTraffic'
 
 export interface PlaceProps {
   id: ID
   name: string
+  countryName?: string
+  stateName?: string
+  cityName?: string
   geoJSON: GeoJSON
   shortName?: string
   description?: string
@@ -27,6 +30,18 @@ export class Place {
 
   get name(): string {
     return this.props.name
+  }
+
+  get countryName(): string | undefined {
+    return this.props.countryName
+  }
+
+  get stateName(): string | undefined {
+    return this.props.stateName
+  }
+
+  get cityName(): string | undefined {
+    return this.props.cityName
   }
 
   get geoJSON(): GeoJSON {

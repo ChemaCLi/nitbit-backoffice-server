@@ -4,8 +4,8 @@ import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
 import { Place } from '../../domain/models/Place'
 import { registerPlace } from '../../application/registerPlace'
 import { findAllPlaces } from '../../application/findAllPlaces'
-import { ID } from '../../domain/value-objects/ID'
-import { GeoJSON } from '../../domain/value-objects/GeoJSON'
+import { ID } from '../../../shared/domain/value-objects/ID'
+import { GeoJSON } from '../../../shared/domain/value-objects/GeoJSON/GeoJSON'
 
 const router = express()
 

@@ -3,9 +3,9 @@ import {
   Geometry,
   GeoJSONProperties,
   GeoJSONProps,
-} from '../../domain/value-objects/GeoJSON'
+} from '../../../shared/domain/value-objects/GeoJSON/GeoJSON'
 import { Place } from '../../domain/models/Place'
-import { ID } from '../../domain/value-objects/ID'
+import { ID } from '../../../shared/domain/value-objects/ID'
 import { DTO } from '../../../../types'
 
 export const parseJsonToPlace = (rawPlaceJson: DTO<Place>) => {

@@ -1,4 +1,4 @@
-import { ID } from '../value-objects/ID'
+import { ID } from '../../../shared/domain/value-objects/ID'
 import { Place } from './Place'
 
 export interface ZoneProps {

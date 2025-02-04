@@ -1,4 +1,4 @@
-import { ID } from '../value-objects/ID'
+import { ID } from '../../../shared/domain/value-objects/ID'
 
 export interface TagProps {
   id: ID

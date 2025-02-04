@@ -1,8 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
 import { Place } from '../../domain/models/Place'
-import { GeoJSON, GeoJSONProps } from '../../domain/value-objects/GeoJSON'
-import { ID } from '../../domain/value-objects/ID'
+import {
+  GeoJSON,
+  GeoJSONProps,
+} from '../../../shared/domain/value-objects/GeoJSON/GeoJSON'
+import { ID } from '../../../shared/domain/value-objects/ID'
 
 const prisma = new PrismaClient()
 
