@@ -9,22 +9,22 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model Tag {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
   icon        String?
   description String?
-  places      Place[]  @relation("PlaceTags")
-  typePlaces  Place[]  @relation("PlaceTypeTags")
+  places      Place[] @relation("PlaceTags")
+  typePlaces  Place[] @relation("PlaceTypeTags")
 }
 
 model Picture {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   imageUrl       String
   altText        String
   figcaptionText String
@@ -37,27 +37,57 @@ model Picture {
   Picture Picture[] @relation("PictureVariants")
 }
 
+model Country {
+  id      String  @id @default(uuid())
+  name    String
+  geoJSON Json
+  states  State[]
+}
+
+model State {
+  id        String  @id @default(uuid())
+  name      String
+  geoJSON   Json
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id])
+  city      City[]
+}
+
+model City {
+  id      String  @id @default(uuid())
+  name    String
+  geoJSON Json
+  stateId String
+  state   State   @relation(fields: [stateId], references: [id])
+  Place   Place[]
+}
+
 model Place {
-  id               String     @id @default(uuid())
+  id               String    @id @default(uuid())
   name             String
+  cityName         String?
+  stateName        String?
+  countryName      String?
   geoJSON          Json
   shortName        String?
   description      String?
   shortDescription String?
   footTraffic      String?
-  tags             Tag[]      @relation("PlaceTags")
-  typeTags         Tag[]      @relation("PlaceTypeTags")
+  tags             Tag[]     @relation("PlaceTags")
+  typeTags         Tag[]     @relation("PlaceTypeTags")
   pictures         Picture[]
-  relatedPlaces    Place[]    @relation("RelatedPlaces")
+  relatedPlaces    Place[]   @relation("RelatedPlaces")
   zoneId           String?
-  zone             Zone?      @relation(fields: [zoneId], references: [id])
+  zone             Zone?     @relation(fields: [zoneId], references: [id])
+  cityId           String?
+  city             City?     @relation(fields: [cityId], references: [id])
 
   // relatedPlaces
   Place Place[] @relation("RelatedPlaces")
 }
 
 model Zone {
-  id      String  @id @default(uuid())
-  name    String
-  places  Place[]
+  id     String  @id @default(uuid())
+  name   String
+  places Place[]
 }
