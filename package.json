@@ -21,7 +21,8 @@
     "prisma": "6.3.0",
     "swagger-themes": "1.4.3",
     "swagger-ui-express": "5.0.1",
-    "uuid": "11.0.5"
+    "uuid": "11.0.5",
+    "yup": "1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.2.0",
