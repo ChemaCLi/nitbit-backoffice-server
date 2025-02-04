@@ -24,13 +24,21 @@ router.post('/', async (req: Request, res: Response) => {
     const createdPlace = await registerPlace(place, placeRepository)
     const createdPlaceAsDTO = placeToDTO(createdPlace)
 
+    res.statusCode = 201
     res.json({
       message: 'The place has been created successfully',
       data: createdPlaceAsDTO,
     })
   } catch (e) {
     console.error(e)
-    res.json({ error: 'Error creating the place', message: e.message })
+    const validationErrors = (e.errors || []).join('. ')
+    const message = e.errors?.length > 0 ? validationErrors : e.message
+
+    res.statusCode = 500
+    if (validationErrors) {
+      res.statusCode = 400
+    }
+    res.json({ error: 'Error creating the place', message })
   }
 })
 
@@ -48,7 +56,8 @@ router.get('/', async (req: Request, res: Response) => {
       }),
     })
   } catch (e) {
-    console.error('errorsillo', e)
+    console.error(e)
+    res.statusCode = 500
     res.json({ error: 'Error getting the place' })
   }
 })
