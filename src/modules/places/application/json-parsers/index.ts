@@ -4,6 +4,7 @@ import { Picture } from '../../domain/models/Picture'
 import { ID } from '../../../shared/domain/value-objects/ID'
 import { PictureDTO, PlaceDTO, TagDTO } from '../dtos/PlaceDTO'
 import { FootTraffic } from '../../domain/value-objects/FootTraffic'
+import { PictureSize } from '../../domain/value-objects/PictureSize'
 import { GeoJSON } from '../../../shared/domain/value-objects/GeoJSON/GeoJSON'
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
@@ -27,7 +28,7 @@ export const pictureToDTO = (picture: Picture): PictureDTO => ({
   imageUrl: picture.imageUrl,
   altText: picture.altText,
   figcaptionText: picture.figcaptionText,
-  size: picture.size,
+  size: picture.size.getValue(),
   variants: picture.variants.map(pictureToDTO),
 })
 
@@ -35,7 +36,8 @@ export const dtoToPicture = (dto: WithRequired<PictureDTO, 'id'>): Picture => {
   return new Picture({
     ...dto,
     id: new ID(dto.id),
-    variants: dto.variants.map(dtoToPicture),
+    size: new PictureSize(dto.size),
+    variants: (dto.variants || []).map(dtoToPicture),
   })
 }
 

@@ -4,7 +4,7 @@ import {
   GeoJSONProperties,
 } from '../../../shared/domain/value-objects/GeoJSON/GeoJSON'
 import { FootTrafficLevel } from '../../domain/value-objects/FootTraffic'
-import { PictureSize } from '../../domain/value-objects/PictureSize'
+import { PictureSizeType } from '../../domain/value-objects/PictureSize'
 
 export interface GeoJsonDTO {
   type: GeoJSONType
@@ -26,7 +26,7 @@ export interface PictureDTO {
   imageUrl: string
   altText: string
   figcaptionText: string
-  size: PictureSize
+  size: PictureSizeType
   variants: Omit<PictureDTO, 'variants'>[]
 }
 
