@@ -1,5 +1,5 @@
 import { findAllPlaces } from './findAllPlaces'
-import { registerPlace } from './registerPlace'
+import { registerPlace } from '../registerPlace'
 
 export const PlacesUseCases = {
   registerPlace,

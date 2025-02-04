@@ -1,4 +1,4 @@
-import { PlaceRepository } from '../domain/repositories/PlaceRepository'
+import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
 
 export const findAllPlaces = async (
   criteria: unknown | undefined,

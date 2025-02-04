@@ -1,5 +1,5 @@
-import { Place } from '../domain/models/Place'
-import { PlaceRepository } from '../domain/repositories/PlaceRepository'
+import { Place } from '../../domain/models/Place'
+import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
 
 export const registerPlace = async (
   place: Place,
