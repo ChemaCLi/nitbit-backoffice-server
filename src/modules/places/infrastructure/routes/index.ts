@@ -1,11 +1,12 @@
-import express, { Response, Request } from 'express'
-import { PrismaPlaceRepository } from '../repositories/PrismaPlaceRepository'
-import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
 import { Place } from '../../domain/models/Place'
+import express, { Response, Request } from 'express'
+import { ID } from '../../../shared/domain/value-objects/ID'
 import { registerPlace } from '../../application/services/registerPlace'
 import { findAllPlaces } from '../../application/services/findAllPlaces'
-import { ID } from '../../../shared/domain/value-objects/ID'
+import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
+import { PrismaPlaceRepository } from '../repositories/PrismaPlaceRepository'
 import { GeoJSON } from '../../../shared/domain/value-objects/GeoJSON/GeoJSON'
+import { validateCreatePlaceInput } from '../validators/validateCreatePlaceInput'
 
 const router = express()
 
@@ -13,6 +14,7 @@ router.post('/', async (req: Request, res: Response) => {
   try {
     const body: Record<string, any> = req.body || {}
     const geoJSON = body.geoJSON
+    await validateCreatePlaceInput(body)
 
     const placeRepository: PlaceRepository = new PrismaPlaceRepository()
     const place = new Place({
@@ -31,7 +33,7 @@ router.post('/', async (req: Request, res: Response) => {
     })
   } catch (e) {
     console.error(e)
-    res.json({ error: 'Error creating the place' })
+    res.json({ error: 'Error creating the place', message: e.message })
   }
 })
 
@@ -53,7 +55,7 @@ router.get('/', async (req: Request, res: Response) => {
       }),
     })
   } catch (e) {
-    console.error(e)
+    console.error('errorsillo', e)
     res.json({ error: 'Error getting the place' })
   }
 })
