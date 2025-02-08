@@ -1,24 +1,15 @@
 import express from 'express'
-import placesRoutes from './modules/places/infrastructure/routes'
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const swaggerUi = require('swagger-ui-express')
-import * as openapi from './docs/openapi.json'
+import v1Routes from './routes'
+import { config } from './modules/shared/application/config'
+import { ROUTES_ENUM } from './routes/ROUTES_ENUM'
 
-import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes'
 const app = express()
 app.use(express.json())
 
-// swagger auto generated docs
-const theme = new SwaggerTheme()
-const darkStyle = theme.getBuffer(SwaggerThemeNameEnum.DRACULA)
-const options = {
-  explorer: true,
-  customCss: darkStyle,
-}
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapi, options))
+app.use('/api/v1/', v1Routes)
 
-app.use('/places', placesRoutes)
-
-app.listen(3000, () => {
-  console.info('Server running on http://localhost:3000')
+app.listen(config.app.REST_API_PORT, () => {
+  console.info(
+    `Server running on http://localhost:${config.app.REST_API_PORT}/${ROUTES_ENUM.v1.DOCS}`,
+  )
 })
