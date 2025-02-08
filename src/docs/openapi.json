@@ -170,6 +170,78 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Place"
+              },
+              "example": {
+                "name": "Example place 3",
+                "countryName": "Mexico",
+                "stateName": "Veracruz",
+                "cityName": "Xalapa",
+                "pictures": [
+                  {
+                    "imageUrl": "https://picsum.photos/400/400",
+                    "altText": "Aerial view of Central Park",
+                    "figcaptionText": "Central Park, NYC",
+                    "size": "LARGE"
+                  }
+                ],
+                "geoJSON": {
+                  "properties": {
+                    "name": "Central Park",
+                    "description": "Central Park, NYC",
+                    "image": "https://picsum.photos/400/400",
+                    "altText": "Aerial view of Central Park"
+                  },
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[1,1], [1,0], [1,2]]]
+                  }
+                },
+                "tags": [
+                  {  "name": "Park", "icon": "https://picsum.photos/100/100", "description": "Letrero" }
+                ],
+                "typeTags": [
+                  {  "name": "Tourist Spot", "icon": "https://picsum.photos/150/100", "description": "Popular place" }
+                ],
+                "footTraffic": "MEDIUM",
+                "relatedPlaces": [
+                  {
+                    "name": "Example place 1",
+                    "countryNames": "Mexico",
+                    "stateName": "Veracruz",
+                    "cityName": "Xalapa",
+                    "pictures": [
+                      {
+                        "imageUrl": "https://picsum.photos/400/400",
+                        "altText": "Aerial view of Central Park",
+                        "figcaptionText": "Central Park, NYC",
+                        "size": "LARGE"
+                      }
+                    ],
+                    "geoJSON": {
+                      "properties": {
+                        "name": "Central Park",
+                        "description": "Central Park, NYC",
+                        "image": "https://picsum.photos/400/400",
+                        "altText": "Aerial view of Central Park"
+                      },
+                      "type": "Feature",
+                      "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[[1,1], [1,0], [1,2]]]
+                      }
+                    },
+                    "tags": [
+                      {  "name": "Park", "icon": "https://picsum.photos/100/100", "description": "Letrero" }
+                    ],
+                    "typeTags": [
+                      {  "name": "Tourist Spot", "icon": "https://picsum.photos/150/100", "description": "Popular place" }
+                    ],
+                    "footTraffic": "MEDIUM"
+                  }
+                ]
+
+
               }
             }
           }
@@ -181,6 +253,20 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Place"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
                 }
               }
             }
