@@ -107,14 +107,14 @@ export class User {
     return this.props.password
   }
 
-  passwordMatches(
+  async passwordMatches(
     password: string,
     passwordValidator: (
       inputPassword: string,
       storedPassword: string,
-    ) => boolean,
-  ): boolean {
-    return passwordValidator(password, this.password)
+    ) => Promise<boolean>,
+  ): Promise<boolean> {
+    return await passwordValidator(password, this.password)
   }
 
   verify(): void {
