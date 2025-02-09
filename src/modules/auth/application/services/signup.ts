@@ -2,14 +2,14 @@ import { User } from '../../domain/models/User'
 import { Notifier } from '../collaborators/notifier'
 import { PasswordEncoder } from '../collaborators/password-encoder'
 import { UserRepository } from '../../domain/repositories/UserRepository'
-import { VerificationCodeGenerator } from '../collaborators/verification-code-generator'
+import { RandomCodeGenerator } from '../collaborators/verification-code-generator'
 
 export const signup = async (
   user: User,
   userRepository: UserRepository,
   passwordEncoder: PasswordEncoder,
   notifier: Notifier,
-  codeGenerator: VerificationCodeGenerator,
+  codeGenerator: RandomCodeGenerator,
 ) => {
   const hashedPassword = await passwordEncoder.encode(user.props.password)
   const verificationCode = await codeGenerator.generate()

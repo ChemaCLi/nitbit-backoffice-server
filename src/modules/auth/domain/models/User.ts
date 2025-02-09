@@ -21,7 +21,7 @@ export interface UserProfileProps {
 export interface UserProps {
   id: ID
   profile: UserProfile
-  password: string
+  password?: string
   status: UserStatus
   verificationCode?: string
   onlineStatus: UserOnlineStatus
@@ -103,7 +103,7 @@ export class User {
     return this.props.profile
   }
 
-  get password(): string {
+  get password(): string | undefined {
     return this.props.password
   }
 
@@ -114,6 +114,9 @@ export class User {
       storedPassword: string,
     ) => Promise<boolean>,
   ): Promise<boolean> {
+    if (!this.password) {
+      throw new Error('User has no password')
+    }
     return await passwordValidator(password, this.password)
   }
 

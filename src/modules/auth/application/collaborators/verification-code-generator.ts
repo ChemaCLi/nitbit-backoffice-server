@@ -1,3 +1,3 @@
-export abstract class VerificationCodeGenerator {
+export abstract class RandomCodeGenerator {
   abstract generate(): Promise<string>
 }
