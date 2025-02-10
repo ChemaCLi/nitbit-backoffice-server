@@ -96,7 +96,7 @@ model User {
   id               String    @id @default(uuid())
   password         String
   status           String
-  verificationCode String
+  verificationCode String?
   onlineStatus     String
   lastSeen         DateTime?
   profile          Profile?  @relation("UserProfile")
