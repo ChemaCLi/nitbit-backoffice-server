@@ -9,5 +9,11 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "favorites.resources": [
+    {
+      "filePath": "src/modules/auth",
+      "group": "Default"
+    }
+  ]
 }

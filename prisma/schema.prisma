@@ -91,3 +91,28 @@ model Zone {
   name   String
   places Place[]
 }
+
+model User {
+  id               String    @id @default(uuid())
+  password         String
+  status           String
+  verificationCode String?
+  onlineStatus     String
+  lastSeen         DateTime?
+  profile          Profile?  @relation("UserProfile")
+
+  friends User[] @relation("Friend")
+  friendOf User[] @relation("Friend")
+}
+
+model Profile {
+  id               String    @id @default(uuid()) 
+  fullName         String
+  email         String
+  phone         String
+  userId String @unique()
+  user User @relation("UserProfile", fields: [userId], references: [id])
+
+  // friends User[] @relation("Friends", references: [id])
+  // blockedUsers User[] @relation("BlockedUsers")
+}
