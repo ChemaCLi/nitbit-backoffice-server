@@ -14,8 +14,6 @@ export interface UserProfileProps {
   fullName: string
   email: Email
   phone: Phone
-  friends: User[]
-  blockedUsers: User[]
 }
 
 export interface UserProps {
@@ -26,6 +24,8 @@ export interface UserProps {
   verificationCode?: string
   onlineStatus: UserOnlineStatus
   lastSeen?: Date
+  friends: User[]
+  blockedUsers: User[]
 }
 
 export class UserProfile {
@@ -57,14 +57,6 @@ export class UserProfile {
 
   get phone(): Phone {
     return this.props.phone
-  }
-
-  get friends(): User[] {
-    return this.props.friends
-  }
-
-  get blockedUsers(): User[] {
-    return this.props.blockedUsers
   }
 }
 
@@ -139,5 +131,13 @@ export class User {
 
   get verificationCode(): string | undefined {
     return this.props.verificationCode
+  }
+
+  get friends(): User[] {
+    return this.props.friends
+  }
+
+  get blockedUsers(): User[] {
+    return this.props.blockedUsers
   }
 }
