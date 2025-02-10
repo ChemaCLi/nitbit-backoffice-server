@@ -1,36 +1,56 @@
 import express, { Response, Request } from 'express'
+import { Email } from '../../domain/value-objects/Email'
+import { config } from '../../../shared/application/config'
 import { signup } from '../../application/services/signup'
 import { User, UserProfile } from '../../domain/models/User'
 import { ID } from '../../../shared/domain/value-objects/ID'
+import { EmailNotifier } from '../collaborators/email-notifier'
 import { Notifier } from '../../application/collaborators/notifier'
 import { UserRepository } from '../../domain/repositories/UserRepository'
+import { EasyCodeGenerator } from '../collaborators/random-code-generator'
+import { PrismaUserRepository } from '../repositories/PrismaUserRepository'
+import { BcryptPasswordEncoder } from '../collaborators/bcrypt-password-encoder'
 import { PasswordEncoder } from '../../application/collaborators/password-encoder'
 import { RandomCodeGenerator } from '../../application/collaborators/verification-code-generator'
+import { validateSignupInput } from '../validators/validateSignupInput'
 const router = express()
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/signup', async (req: Request, res: Response) => {
   try {
     const { fullName, email, phone, password } = req.body
+
+    await validateSignupInput({
+      fullName,
+      email,
+      phone,
+      password,
+    })
 
     const user = new User({
       id: new ID(),
       password,
       status: 'pending_verification',
       onlineStatus: 'offline',
+      friends: [],
+      blockedUsers: [],
       profile: new UserProfile({
         id: new ID(),
         fullName,
         email,
         phone,
-        friends: [],
-        blockedUsers: [],
       }),
     })
 
-    const userRepository: UserRepository | undefined = undefined
-    const passwordEncoder: PasswordEncoder | undefined = undefined
-    const notifier: Notifier | undefined = undefined
-    const codeGenerator: RandomCodeGenerator | undefined = undefined
+    const userRepository: UserRepository = new PrismaUserRepository()
+    const passwordEncoder: PasswordEncoder = new BcryptPasswordEncoder()
+    const notifier: Notifier = new EmailNotifier(
+      new Email(config.mailing.SYSTEM_EMAIL),
+      user.profile.email,
+      'CÓDIGO DE VERIFICACIÓN',
+      '<h2>Este es tu código de verificación <strong>{{message}}</strong>!</h2>',
+    )
+
+    const codeGenerator: RandomCodeGenerator = new EasyCodeGenerator()
 
     await signup(user, userRepository, passwordEncoder, notifier, codeGenerator)
     res.json({ message: 'User signed up successfully' })

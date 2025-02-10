@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express'
 const router = express()
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/verify', async (req: Request, res: Response) => {
   try {
     return
   } catch (e) {

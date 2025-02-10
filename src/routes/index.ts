@@ -4,6 +4,7 @@ const swaggerUi = require('swagger-ui-express')
 import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes'
 import * as openapi from '../docs/openapi.json'
 import placesRoutes from '../modules/places/infrastructure/routes'
+import authRoutes from '../modules/auth/infrastructure/routes'
 
 const router = express()
 
@@ -17,5 +18,6 @@ const options = {
 
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapi, options))
 router.use('/places', placesRoutes)
+router.use('/auth', authRoutes)
 
 export default router

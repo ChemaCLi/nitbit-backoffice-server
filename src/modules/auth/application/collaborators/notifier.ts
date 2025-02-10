@@ -1,3 +1,3 @@
 export abstract class Notifier {
-  abstract notify(message: string): void
+  abstract notify(message: string): Promise<void>
 }

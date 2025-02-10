@@ -11,7 +11,7 @@ export const signup = async (
   notifier: Notifier,
   codeGenerator: RandomCodeGenerator,
 ) => {
-  const hashedPassword = await passwordEncoder.encode(user.props.password)
+  const hashedPassword = await passwordEncoder.encode(user.password as string)
   const verificationCode = await codeGenerator.generate()
 
   const userWithHashedPassword = new User({

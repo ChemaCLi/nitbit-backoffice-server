@@ -78,10 +78,6 @@ export class User {
       throw new Error('Invalid last seen date')
     }
 
-    if (props.status === 'pending_verification' && !props.verificationCode) {
-      throw new Error('Verification code is required')
-    }
-
     if (!props.profile) {
       throw new Error('User profile is required')
     }
