@@ -1,6 +1,5 @@
 export class Phone {
   constructor(private readonly value: string) {
-    // Remove white spaces
     this.value = value.trim().replaceAll(' ', '')
 
     if (!value) {
@@ -8,7 +7,7 @@ export class Phone {
     }
 
     if (!this.isValidPhone(value)) {
-      throw new Error('Invalid email')
+      throw new Error('Invalid phone')
     }
   }
 

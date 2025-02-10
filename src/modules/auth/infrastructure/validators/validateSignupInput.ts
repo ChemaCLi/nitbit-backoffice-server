@@ -15,7 +15,7 @@ const signupSchema = yup.object({
 
   phone: yup
     .string()
-    .matches(/^\+?[0-9]{10,15}$/, 'Invalid phone number format')
+    .matches(/^\+[0-9]{1,3}-[0-9]{1,14}$/, 'Invalid phone number format')
     .required('Phone number is required'),
 
   password: yup
