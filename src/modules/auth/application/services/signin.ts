@@ -1,14 +1,14 @@
-import { User } from '../../domain/models/User'
-import { TokenGenerator } from '../collaborators/token-generator'
+import { Email } from '../../domain/value-objects/Email'
+import { TokenManager } from '../collaborators/token-manager'
 import { PasswordEncoder } from '../collaborators/password-encoder'
 import { UserRepository } from '../../domain/repositories/UserRepository'
 
 export const signinWithEmailPassword = async (
-  email: string,
+  email: Email,
   password: string,
   userRepository: UserRepository,
   passwordEncoder: PasswordEncoder,
-  tokenGenerator: TokenGenerator,
+  tokenGenerator: TokenManager,
 ) => {
   const foundUser = await userRepository.findByEmail(email)
 
@@ -25,5 +25,5 @@ export const signinWithEmailPassword = async (
     throw new Error('Invalid credentials')
   }
 
-  return tokenGenerator.generateToken<User>(foundUser)
+  return await tokenGenerator.generateUserToken(foundUser)
 }
