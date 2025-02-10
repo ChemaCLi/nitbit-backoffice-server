@@ -56,8 +56,21 @@ router.post('/signup', async (req: Request, res: Response) => {
 
     const codeGenerator: RandomCodeGenerator = new EasyCodeGenerator()
 
-    await signup(user, userRepository, passwordEncoder, notifier, codeGenerator)
-    res.json({ message: 'User signed up successfully' })
+    const createdUser = await signup(
+      user,
+      userRepository,
+      passwordEncoder,
+      notifier,
+      codeGenerator,
+    )
+
+    res.json({
+      message: 'User signed up successfully',
+      data: {
+        id: createdUser.id.toString(),
+        email: createdUser.profile.email.getValue(),
+      },
+    })
   } catch (e) {
     console.error(e)
     const validationErrors = (e.errors || []).join('. ')

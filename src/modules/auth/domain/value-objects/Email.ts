@@ -12,7 +12,6 @@ export class Email {
   }
 
   private isValidEmail(email: string): boolean {
-    console.log(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
 

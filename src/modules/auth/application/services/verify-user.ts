@@ -1,18 +1,35 @@
-import { User } from '../../domain/models/User'
 import { Notifier } from '../collaborators/notifier'
+import { Email } from '../../domain/value-objects/Email'
+import { UserRepository } from '../../domain/repositories/UserRepository'
 
 export const verifyUser = async (
-  user: User,
+  email: Email,
+  userRepository: UserRepository,
   verificationCode: string,
   notifier: Notifier,
 ) => {
-  if (user.props.verificationCode !== verificationCode) {
+  const user = await userRepository.findByEmail(email)
+
+  if (!user) {
+    throw new Error('User not found')
+  }
+
+  if (!user.verificationCode || user.status !== 'pending_verification') {
+    throw new Error('It seems the user has been already verified.')
+  }
+
+  if (
+    !user.props.verificationCode ||
+    user.props.verificationCode !== verificationCode
+  ) {
     throw new Error('Invalid verification code')
   }
 
-  notifier.notify(
-    `Felicitaciones, ${user.profile.fullName}! Tu cuenta ha sido verificada.`,
+  await userRepository.verify(user)
+
+  await notifier.notify(
+    `${user.profile.fullName} te damos la bienvenida a NitBit!`,
   )
 
-  user.verify()
+  return user
 }

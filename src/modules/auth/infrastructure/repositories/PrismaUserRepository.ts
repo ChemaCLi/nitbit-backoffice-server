@@ -35,6 +35,21 @@ export class PrismaUserRepository implements UserRepository {
     return user
   }
 
+  async verify(user: User): Promise<User> {
+    await prisma.user.update({
+      where: {
+        id: user.id.toString(),
+      },
+      data: {
+        status: 'active',
+        verificationCode: null,
+      },
+    })
+
+    user.verify()
+    return user
+  }
+
   async findById(id: ID): Promise<User | null> {
     const rawFoundUser = await prisma.user.findUniqueOrThrow({
       where: {
@@ -50,6 +65,7 @@ export class PrismaUserRepository implements UserRepository {
       password: rawFoundUser.password,
       status: rawFoundUser.status as UserStatus,
       onlineStatus: rawFoundUser.onlineStatus as UserOnlineStatus,
+      verificationCode: rawFoundUser.verificationCode || undefined,
       friends: [],
       blockedUsers: [],
       profile: new UserProfile({
@@ -63,11 +79,11 @@ export class PrismaUserRepository implements UserRepository {
     return user
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    const rawFoundUser = await prisma.user.findFirstOrThrow({
+  async findByEmail(email: Email): Promise<User | null> {
+    const rawFoundUser = await prisma.user.findFirst({
       where: {
         profile: {
-          email: email.toString(),
+          email: email.getValue(),
         },
       },
       include: {
@@ -75,11 +91,14 @@ export class PrismaUserRepository implements UserRepository {
       },
     })
 
+    if (!rawFoundUser) return null
+
     const user = new User({
       id: new ID(rawFoundUser.id),
       password: rawFoundUser.password,
       status: rawFoundUser.status as UserStatus,
       onlineStatus: rawFoundUser.onlineStatus as UserOnlineStatus,
+      verificationCode: rawFoundUser.verificationCode || undefined,
       friends: [],
       blockedUsers: [],
       profile: new UserProfile({

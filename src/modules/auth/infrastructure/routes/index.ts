@@ -1,7 +1,7 @@
 import express from 'express'
 import { signinEndpoint } from './signin'
 import { signupEndpoint } from './signup'
-import { verifyNewUserEndpoint } from './verify-new-user'
+import { verifyNewUserEndpoint } from './verify-signup'
 
 const router = express()
 router.use(signinEndpoint)

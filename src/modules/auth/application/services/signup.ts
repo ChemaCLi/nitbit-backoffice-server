@@ -10,7 +10,12 @@ export const signup = async (
   passwordEncoder: PasswordEncoder,
   notifier: Notifier,
   codeGenerator: RandomCodeGenerator,
-) => {
+): Promise<User> => {
+  const userWithSameEmail = await userRepository.findByEmail(user.profile.email)
+  if (userWithSameEmail) {
+    throw new Error('The email is not available. It has been already taken.')
+  }
+
   const hashedPassword = await passwordEncoder.encode(user.password as string)
   const verificationCode = await codeGenerator.generate()
 
@@ -23,4 +28,5 @@ export const signup = async (
 
   await userRepository.save(userWithHashedPassword)
   await notifier.notify(verificationCode)
+  return userWithHashedPassword
 }
