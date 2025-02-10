@@ -14,6 +14,24 @@ const prisma = new PrismaClient()
 
 export class PrismaUserRepository implements UserRepository {
   async save(user: User): Promise<User> {
+    await prisma.user.create({
+      data: {
+        id: user.id.toString(),
+        password: user.password as string,
+        status: user.status,
+        onlineStatus: user.onlineStatus,
+        verificationCode: user.verificationCode as string,
+        profile: {
+          create: {
+            id: user.profile.id.toString(),
+            fullName: user.profile.fullName,
+            email: user.profile.email.getValue(),
+            phone: user.profile.phone.getValue(),
+          },
+        },
+      },
+    })
+
     return user
   }
 

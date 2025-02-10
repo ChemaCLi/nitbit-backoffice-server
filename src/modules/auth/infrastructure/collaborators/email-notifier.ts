@@ -17,7 +17,7 @@ export class EmailNotifier implements Notifier {
 
   async notify(message: string): Promise<void> {
     try {
-      const { data, error } = await this.resend.emails.send({
+      const { error } = await this.resend.emails.send({
         from: this.from.getValue(),
         to: this.to.getValue(),
         subject: this.subject,
@@ -30,8 +30,6 @@ export class EmailNotifier implements Notifier {
         console.error('Failed to send email:', error)
         throw new Error('Failed to send email')
       }
-
-      console.info({ mailNotification: data })
     } catch (err) {
       console.error('Error in EmailNotifier:', err)
       throw err

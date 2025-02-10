@@ -1,4 +1,5 @@
 import express, { Response, Request } from 'express'
+import { Phone } from '../../domain/value-objects/Phone'
 import { Email } from '../../domain/value-objects/Email'
 import { config } from '../../../shared/application/config'
 import { signup } from '../../application/services/signup'
@@ -6,13 +7,13 @@ import { User, UserProfile } from '../../domain/models/User'
 import { ID } from '../../../shared/domain/value-objects/ID'
 import { EmailNotifier } from '../collaborators/email-notifier'
 import { Notifier } from '../../application/collaborators/notifier'
+import { validateSignupInput } from '../validators/validateSignupInput'
 import { UserRepository } from '../../domain/repositories/UserRepository'
 import { EasyCodeGenerator } from '../collaborators/random-code-generator'
 import { PrismaUserRepository } from '../repositories/PrismaUserRepository'
 import { BcryptPasswordEncoder } from '../collaborators/bcrypt-password-encoder'
 import { PasswordEncoder } from '../../application/collaborators/password-encoder'
 import { RandomCodeGenerator } from '../../application/collaborators/verification-code-generator'
-import { validateSignupInput } from '../validators/validateSignupInput'
 const router = express()
 
 router.post('/signup', async (req: Request, res: Response) => {
@@ -36,18 +37,21 @@ router.post('/signup', async (req: Request, res: Response) => {
       profile: new UserProfile({
         id: new ID(),
         fullName,
-        email,
-        phone,
+        email: new Email(email),
+        phone: new Phone(phone),
       }),
     })
+
+    const emailTemplate =
+      '<p>Hola. Este es tu código de verificación <strong>{{message}}</strong></p>'
 
     const userRepository: UserRepository = new PrismaUserRepository()
     const passwordEncoder: PasswordEncoder = new BcryptPasswordEncoder()
     const notifier: Notifier = new EmailNotifier(
       new Email(config.mailing.SYSTEM_EMAIL),
       user.profile.email,
-      'CÓDIGO DE VERIFICACIÓN',
-      '<h2>Este es tu código de verificación <strong>{{message}}</strong>!</h2>',
+      'Código de verificación NitBit',
+      emailTemplate,
     )
 
     const codeGenerator: RandomCodeGenerator = new EasyCodeGenerator()

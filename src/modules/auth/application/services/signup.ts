@@ -21,9 +21,6 @@ export const signup = async (
     status: 'pending_verification',
   })
 
-  const newUser = await userRepository.save(userWithHashedPassword)
-
-  notifier.notify(
-    `El usuario ${newUser.profile.fullName} ha sido creado. Código de verificación: ${verificationCode}.`,
-  )
+  await userRepository.save(userWithHashedPassword)
+  await notifier.notify(verificationCode)
 }
