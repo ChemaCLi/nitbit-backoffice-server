@@ -14,7 +14,7 @@
     "prepare": "husky",
     "prisma:generate": "prisma generate",
     "postinstall": "pnpm run prisma:generate",
-    "vercel-build": "pnpm run build && pnpm run prisma:generate"
+    "vercel-build": "pnpm run build"
   },
   "husky": {
     "hooks": {
