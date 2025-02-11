@@ -1,12 +1,9 @@
 {
   "version": 2,
-  "buildCommand": "pnpm build",
-  "installCommand": "pnpm install",
   "builds": [
     {
-      "src": "dist/index.js",
-      "use": "@vercel/node",
-      "config": { "includeFiles": ["dist/**"] }
+      "src": "package.json",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
