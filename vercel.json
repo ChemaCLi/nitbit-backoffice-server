@@ -1,0 +1,17 @@
+{
+  "name": "climas",
+  "version": 2,
+  "public": true,
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/((?!.*\\.\\w+$).*)",
+      "dest": "/dist/index.js"
+    }
+  ]
+}
