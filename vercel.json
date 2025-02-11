@@ -1,10 +1,5 @@
 {
   "version": 2,
   "public": true,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/dist/index.js"
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/dist/index.js" }]
 }

@@ -1,0 +1,315 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Place API",
+        "version": "1.0.0",
+        "description": "API for managing places with DDD architecture"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Local development server"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Place": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for the place"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the place"
+                    },
+                    "geoJSON": {
+                        "$ref": "#/components/schemas/GeoJSON"
+                    },
+                    "shortName": {
+                        "type": "string",
+                        "description": "Short name or abbreviation for the place"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the place"
+                    },
+                    "shortDescription": {
+                        "type": "string",
+                        "description": "Brief description of the place"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Tag"
+                        }
+                    },
+                    "typeTags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Tag"
+                        }
+                    },
+                    "footTraffic": {
+                        "type": "string",
+                        "enum": ["LOW", "MEDIUM", "HIGH"],
+                        "description": "Level of foot traffic at the place"
+                    },
+                    "pictures": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Picture"
+                        }
+                    },
+                    "relatedPlaces": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Place"
+                        }
+                    }
+                }
+            },
+            "Tag": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for the tag"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the tag"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Icon representing the tag"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the tag"
+                    }
+                }
+            },
+            "Picture": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for the picture"
+                    },
+                    "imageUrl": {
+                        "type": "string",
+                        "description": "URL of the image"
+                    },
+                    "altText": {
+                        "type": "string",
+                        "description": "Alternative text for the image"
+                    },
+                    "figcaptionText": {
+                        "type": "string",
+                        "description": "Caption for the image"
+                    },
+                    "size": {
+                        "type": "string",
+                        "enum": ["TINY", "SMALL", "MEDIUM", "LARGE", "EXTRA_LARGE"],
+                        "description": "Size of the picture"
+                    },
+                    "variants": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Picture"
+                        }
+                    }
+                }
+            },
+            "GeoJSON": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "enum": ["Feature"],
+                        "description": "Type of GeoJSON object"
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "geometry": {
+                        "type": "object",
+                        "properties": {
+                            "coordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": ["Point", "LineString", "Polygon"]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/places": {
+            "post": {
+                "summary": "Register a new place",
+                "description": "Creates a new place with the provided details",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Place"
+                            },
+                            "example": {
+                                "name": "Example place 3",
+                                "countryName": "Mexico",
+                                "stateName": "Veracruz",
+                                "cityName": "Xalapa",
+                                "pictures": [
+                                    {
+                                        "imageUrl": "https://picsum.photos/400/400",
+                                        "altText": "Aerial view of Central Park",
+                                        "figcaptionText": "Central Park, NYC",
+                                        "size": "LARGE"
+                                    }
+                                ],
+                                "geoJSON": {
+                                    "properties": {
+                                        "name": "Central Park",
+                                        "description": "Central Park, NYC",
+                                        "image": "https://picsum.photos/400/400",
+                                        "altText": "Aerial view of Central Park"
+                                    },
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Polygon",
+                                        "coordinates": [[[1, 1], [1, 0], [1, 2]]]
+                                    }
+                                },
+                                "tags": [
+                                    { "name": "Park", "icon": "https://picsum.photos/100/100", "description": "Letrero" }
+                                ],
+                                "typeTags": [
+                                    { "name": "Tourist Spot", "icon": "https://picsum.photos/150/100", "description": "Popular place" }
+                                ],
+                                "footTraffic": "MEDIUM",
+                                "relatedPlaces": [
+                                    {
+                                        "name": "Example place 1",
+                                        "countryNames": "Mexico",
+                                        "stateName": "Veracruz",
+                                        "cityName": "Xalapa",
+                                        "pictures": [
+                                            {
+                                                "imageUrl": "https://picsum.photos/400/400",
+                                                "altText": "Aerial view of Central Park",
+                                                "figcaptionText": "Central Park, NYC",
+                                                "size": "LARGE"
+                                            }
+                                        ],
+                                        "geoJSON": {
+                                            "properties": {
+                                                "name": "Central Park",
+                                                "description": "Central Park, NYC",
+                                                "image": "https://picsum.photos/400/400",
+                                                "altText": "Aerial view of Central Park"
+                                            },
+                                            "type": "Feature",
+                                            "geometry": {
+                                                "type": "Polygon",
+                                                "coordinates": [[[1, 1], [1, 0], [1, 2]]]
+                                            }
+                                        },
+                                        "tags": [
+                                            { "name": "Park", "icon": "https://picsum.photos/100/100", "description": "Letrero" }
+                                        ],
+                                        "typeTags": [
+                                            { "name": "Tourist Spot", "icon": "https://picsum.photos/150/100", "description": "Popular place" }
+                                        ],
+                                        "footTraffic": "MEDIUM"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Place created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Place"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": { "type": "string" },
+                                        "message": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get a list of places",
+                "description": "Returns a paginated list of places, optionally filtered by criteria",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of places",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Place"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
