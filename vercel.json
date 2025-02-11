@@ -1,5 +1,25 @@
 {
+  "name": "climas",
   "version": 2,
   "public": true,
-  "rewrites": [{ "source": "/(.*)", "destination": "/dist/index.js" }]
+  "builds": [
+    {
+      "src": "dist/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/((?!.*\\.\\w+$).*)",
+      "dest": "/dist/server.js"
+    },
+    {
+      "src": "/(.+\\.[a-zA-Z\\d]+)$",
+      "dest": "/public/$1"
+    }
+  ]
 }
