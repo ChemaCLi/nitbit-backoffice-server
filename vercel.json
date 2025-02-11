@@ -1,0 +1,17 @@
+{
+  "name": "nitbit-backoffice-server",
+  "version": 2,
+  "public": true,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/((?!.*\\.\\w+$).*)",
+      "dest": "/dist/index.js"
+    }
+  ]
+}
