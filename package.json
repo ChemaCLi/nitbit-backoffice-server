@@ -13,7 +13,7 @@
     "build": "tsc",
     "prepare": "husky",
     "prisma:generate": "prisma generate",
-    "postinstall": "pnpm run prisma:generate",
+    "postinstall": "pnpm run prisma:generate && pnpm run build",
     "vercel-build": "pnpm run build"
   },
   "husky": {
