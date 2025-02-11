@@ -1,10 +1,10 @@
 {
-  "name": "climas",
+  "name": "nitbit",
   "version": 2,
   "public": true,
   "builds": [
     {
-      "src": "dist/server.js",
+      "src": "dist/index.js",
       "use": "@vercel/node"
     },
     {
@@ -15,7 +15,7 @@
   "routes": [
     {
       "src": "/((?!.*\\.\\w+$).*)",
-      "dest": "/dist/server.js"
+      "dest": "/dist/index.js"
     },
     {
       "src": "/(.+\\.[a-zA-Z\\d]+)$",
