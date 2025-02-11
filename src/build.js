@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 import { existsSync, mkdirSync } from 'fs'
 
-const distDir = './dist'
+const distDir = '../dist'
 
 if (!existsSync(distDir)) {
   console.log('📦 Creando el directorio dist...')

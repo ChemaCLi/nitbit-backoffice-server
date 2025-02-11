@@ -7,15 +7,14 @@
     "npm": ">=10.9.2"
   },
   "scripts": {
-    "prebuild": "mkdir -p dist",
     "start": "node src/build.js && node dist/index.js",
-    "vercel-build": "node build.js",
     "dev": "nodemon src/index.ts",
     "lint": "eslint",
     "build": "tsc",
     "prepare": "husky",
     "prisma:generate": "prisma generate",
-    "postinstall": "pnpm run prisma:generate"
+    "postinstall": "pnpm run prisma:generate",
+    "prebuild": "mkdir -p dist"
   },
   "husky": {
     "hooks": {
