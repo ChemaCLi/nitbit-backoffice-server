@@ -4,7 +4,7 @@
   "installCommand": "pnpm install",
   "builds": [
     {
-      "src": "dist/index.js",
+      "src": "package.json",
       "use": "@vercel/node"
     }
   ],
