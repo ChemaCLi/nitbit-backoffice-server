@@ -2,7 +2,6 @@
   "version": 2,
   "buildCommand": "pnpm build",
   "installCommand": "pnpm install",
-  "outputDirectory": "dist",
   "builds": [
     {
       "src": "dist/index.js",
