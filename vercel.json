@@ -6,20 +6,12 @@
     {
       "src": "dist/index.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/((?!.*\\.\\w+$).*)",
+      "src": "/(.*)",
       "dest": "/dist/index.js"
-    },
-    {
-      "src": "/(.+\\.[a-zA-Z\\d]+)$",
-      "dest": "/public/$1"
     }
   ]
 }
