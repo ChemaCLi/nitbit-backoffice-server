@@ -1,8 +1,8 @@
 import express, { Response, Request } from 'express'
 import { placeToDTO } from '../../application/json-parsers'
-import { findPlacesByState } from '../../application/services/findPlacesByState'
 import { PlaceRepository } from '../../domain/repositories/PlaceRepository'
 import { PrismaPlaceRepository } from '../repositories/PrismaPlaceRepository'
+import { findPlacesByState } from '../../application/services/findPlacesByState'
 
 const router = express()
 
@@ -19,9 +19,7 @@ router.get('/', async (req: Request, res: Response) => {
 
     res.json({
       message: 'Places found successfully',
-      data: foundPlaces.map((place) => {
-        return placeToDTO(place)
-      }),
+      data: foundPlaces.map((place) => placeToDTO(place)),
     })
   } catch (e) {
     console.error(e)
