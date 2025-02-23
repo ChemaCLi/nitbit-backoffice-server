@@ -1,11 +1,11 @@
 import express from 'express'
 import { registerPlaceEndpoint } from './registerPlace'
 import { findAllPlacesEndpoint } from './findAllPlaces'
-import { findPlacesByState } from './findPlacesByState'
+import { findPlacesByStateEndpoint } from './findPlacesByState'
 
 const router = express()
 router.use(registerPlaceEndpoint)
 router.use(findAllPlacesEndpoint)
-router.use(findPlacesByState)
+router.use(findPlacesByStateEndpoint)
 
 export default router
