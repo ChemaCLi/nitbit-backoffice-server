@@ -89,6 +89,40 @@ class PrismaPlaceRepository {
             });
         });
     }
+    async findByState(state) {
+        const rawPlaces = await prisma.place.findMany({
+            where: {
+                stateName: state,
+            },
+            include: { pictures: true },
+        });
+        return rawPlaces.map((rawPlace) => {
+            const geoJsonAsString = typeof rawPlace.geoJSON === 'object'
+                ? JSON.stringify(rawPlace.geoJSON)
+                : rawPlace.geoJSON;
+            const prismaGeoJSON = JSON.parse(geoJsonAsString);
+            return (0, json_parsers_1.dtoToPlace)({
+                ...rawPlace,
+                countryName: rawPlace.countryName || undefined,
+                stateName: rawPlace.stateName || undefined,
+                cityName: rawPlace.cityName || undefined,
+                relatedPlaces: [],
+                tags: [],
+                typeTags: [],
+                geoJSON: prismaGeoJSON || undefined,
+                shortName: rawPlace.shortName || undefined,
+                name: rawPlace.name,
+                description: rawPlace.description || undefined,
+                shortDescription: rawPlace.shortDescription || undefined,
+                footTraffic: rawPlace.footTraffic || undefined,
+                pictures: rawPlace.pictures.map((rawPic) => ({
+                    ...rawPic,
+                    variants: [],
+                    size: rawPic.size,
+                })),
+            });
+        });
+    }
 }
 exports.PrismaPlaceRepository = PrismaPlaceRepository;
 //# sourceMappingURL=PrismaPlaceRepository.js.map
