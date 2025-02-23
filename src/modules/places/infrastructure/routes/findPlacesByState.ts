@@ -6,9 +6,9 @@ import { findPlacesByState } from '../../application/services/findPlacesByState'
 
 const router = express()
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/states/:state', async (req: Request, res: Response) => {
   try {
-    const { state } = req.query
+    const { state } = req.params
 
     if (typeof state !== 'string') {
       throw new Error('Invalid request body')
@@ -17,8 +17,13 @@ router.get('/', async (req: Request, res: Response) => {
     const placeRepository: PlaceRepository = new PrismaPlaceRepository()
     const foundPlaces = await findPlacesByState(state, placeRepository)
 
+    const message =
+      foundPlaces.length > 0
+        ? 'Places found successfully'
+        : `There are no places for the state ${state}`
+
     res.json({
-      message: 'Places found successfully',
+      message,
       data: foundPlaces.map((place) => placeToDTO(place)),
     })
   } catch (e) {
