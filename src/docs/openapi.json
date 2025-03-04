@@ -194,14 +194,28 @@
                   "type": "Feature",
                   "geometry": {
                     "type": "Polygon",
-                    "coordinates": [[[1,1], [1,0], [1,2]]]
+                    "coordinates": [
+                      [
+                        [1, 1],
+                        [1, 0],
+                        [1, 2]
+                      ]
+                    ]
                   }
                 },
                 "tags": [
-                  {  "name": "Park", "icon": "https://picsum.photos/100/100", "description": "Letrero" }
+                  {
+                    "name": "Park",
+                    "icon": "https://picsum.photos/100/100",
+                    "description": "Letrero"
+                  }
                 ],
                 "typeTags": [
-                  {  "name": "Tourist Spot", "icon": "https://picsum.photos/150/100", "description": "Popular place" }
+                  {
+                    "name": "Tourist Spot",
+                    "icon": "https://picsum.photos/150/100",
+                    "description": "Popular place"
+                  }
                 ],
                 "footTraffic": "MEDIUM",
                 "relatedPlaces": [
@@ -228,20 +242,32 @@
                       "type": "Feature",
                       "geometry": {
                         "type": "Polygon",
-                        "coordinates": [[[1,1], [1,0], [1,2]]]
+                        "coordinates": [
+                          [
+                            [1, 1],
+                            [1, 0],
+                            [1, 2]
+                          ]
+                        ]
                       }
                     },
                     "tags": [
-                      {  "name": "Park", "icon": "https://picsum.photos/100/100", "description": "Letrero" }
+                      {
+                        "name": "Park",
+                        "icon": "https://picsum.photos/100/100",
+                        "description": "Letrero"
+                      }
                     ],
                     "typeTags": [
-                      {  "name": "Tourist Spot", "icon": "https://picsum.photos/150/100", "description": "Popular place" }
+                      {
+                        "name": "Tourist Spot",
+                        "icon": "https://picsum.photos/150/100",
+                        "description": "Popular place"
+                      }
                     ],
                     "footTraffic": "MEDIUM"
                   }
                 ]
-
-
               }
             }
           }
@@ -305,6 +331,45 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Place"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/states/{state}": {
+      "get": {
+        "summary": "Get a list of places in a state",
+        "description": "Returns a list of places in a state",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "path",
+            "description": "Name of the state",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of places",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "places": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Place"
+                        }
+                      }
+                    }
                   }
                 }
               }
