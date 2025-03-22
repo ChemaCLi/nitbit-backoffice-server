@@ -14,6 +14,8 @@ import { PrismaUserRepository } from '../repositories/PrismaUserRepository'
 import { BcryptPasswordEncoder } from '../collaborators/bcrypt-password-encoder'
 import { PasswordEncoder } from '../../application/collaborators/password-encoder'
 import { RandomCodeGenerator } from '../../application/collaborators/verification-code-generator'
+import { NotificationException } from '../../domain/exceptions/NotificationException'
+
 const router = express()
 
 router.post('/signup', async (req: Request, res: Response) => {
@@ -64,6 +66,7 @@ router.post('/signup', async (req: Request, res: Response) => {
       codeGenerator,
     )
 
+    // Si llegamos aquí, la cuenta se creó correctamente
     res.json({
       message: 'User signed up successfully',
       data: {
@@ -73,6 +76,31 @@ router.post('/signup', async (req: Request, res: Response) => {
     })
   } catch (e) {
     console.error(e)
+
+    // Manejar específicamente errores de notificación
+    if (e instanceof NotificationException) {
+      // Log detallado del error de notificación
+      console.error('Notification error:', {
+        error: e.message,
+        recipient: e.recipient,
+        content: e.content,
+        userId: e.userId,
+      })
+
+      // Si la cuenta se creó pero falló la notificación, responder con éxito
+      if (e.userId) {
+        res.json({
+          message: 'User signed up successfully',
+          data: {
+            id: e.userId,
+            email: e.recipient.email,
+          },
+        })
+        return
+      }
+    }
+
+    // Manejar otros tipos de errores
     const validationErrors = (e.errors || []).join('. ')
     const message = e.errors?.length > 0 ? validationErrors : e.message
 
