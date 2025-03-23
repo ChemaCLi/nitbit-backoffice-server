@@ -1,13 +1,15 @@
+import { InvalidValueException } from '../../../shared/domain/exceptions/InvalidValueException'
+
 export class Phone {
   constructor(private readonly value: string) {
     this.value = value.trim().replaceAll(' ', '')
 
     if (!value) {
-      throw new Error('Phone is required')
+      throw new InvalidValueException('Phone is required')
     }
 
     if (!this.isValidPhone(value)) {
-      throw new Error('Invalid phone')
+      throw new InvalidValueException('Invalid phone format')
     }
   }
 

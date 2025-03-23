@@ -1,13 +1,15 @@
+import { InvalidValueException } from '../../../shared/domain/exceptions/InvalidValueException'
+
 export class Email {
   constructor(private readonly value: string) {
     this.value = value.trim().replaceAll(' ', '')
 
     if (!value) {
-      throw new Error('Email is required')
+      throw new InvalidValueException('Email is required')
     }
 
     if (!this.isValidEmail(value)) {
-      throw new Error('Invalid email')
+      throw new InvalidValueException('Invalid email format')
     }
   }
 
